@@ -1,0 +1,65 @@
+/************************/
+/* periscope2 basic CSS */
+/************************/
+
+/* Application Title */
+a#app_info {
+    color: #212529;
+}
+
+/* Busy Indicator */
+.periscope-busy-ind {
+
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* Other */
+.help-block {
+    padding: 12px 15px 0 12px;
+}
+
+
+.wrapper {
+    background-color: #ecf0f5 !important;
+}
+
+
+/* --- MODULES --- */
+
+/* Download Button */
+.periscope-download-btn { }
+.periscope-download-choice {
+    display        : flex;
+    justify-content: left;
+    margin-left    : 10%;
+}
+
+/*downloadfile multi dropdown file*/
+.dropdown-menu.show {
+    min-width: 100%;
+}
+
+/* Downloadable Table */
+.periscope-downloadable-table { }
+.periscope-downloadable-table-header > div {
+    float: right;
+}
+
+.periscope-downloadable-table-button {
+    float: left;
+}
+
+/* Downloadable Plot */
+.periscope-downloadable-plot { }
+.periscope-downloadable-plot-button {
+    position: relative;
+    margin-left: 5px;
+    margin-right: 5px;
+    top: -39px;
+    float: right;
+}
+/* END of periscope2 basic CSS*/
