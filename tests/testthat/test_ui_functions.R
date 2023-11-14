@@ -30,7 +30,7 @@ create_announcements <- function(start_date        = NULL,
 
 #########################################
 
-test_that("add_ui_header", {
+test_that("add_ui_header - default", {
     # no header
     expect_null(shiny::isolate(periscope2:::.g_opts$header))
     # normal header
@@ -57,7 +57,6 @@ test_that("add_ui_header", {
 
     header <- shiny::isolate(periscope2:::.g_opts$header)
     expect_equal(length(header), 2)
-    expect_true(grepl('id="announceAlert"', header[[1]], fixed = TRUE))
     expect_true(grepl('Set using set_app_parameters() in program/global.R', header[[1]], fixed = TRUE))
     expect_null(header[[2]])
 })
@@ -244,11 +243,22 @@ test_that("add_ui_body example body", {
     add_ui_body(list(div("more elements")), append = TRUE)
     expect_snapshot_output(shiny::isolate(periscope2:::.g_opts$body_elements))
     dashboard_ui <- periscope2:::create_application_dashboard()
-    expect_true(grepl('id="announceAlert"' , dashboard_ui, fixed = TRUE))
-    expect_true(grepl('id="headerAlert"' , dashboard_ui, fixed = TRUE))
-    expect_true(grepl('Periscope2 Features' , dashboard_ui, fixed = TRUE))
-    expect_true(grepl('id="sidebarRightAlert"' , dashboard_ui, fixed = TRUE))
-    expect_true(grepl('id="footerAlert"' , dashboard_ui, fixed = TRUE))
+    expect_true(grepl('id="announceAlert"' , dashboard_ui[[1]], fixed = TRUE))
+    expect_true(grepl('id="headerAlert"' , dashboard_ui[[2]], fixed = TRUE))
+    expect_true(grepl('Periscope2 Features' , dashboard_ui[[3]], fixed = TRUE))
+    expect_true(grepl('id="sidebarRightAlert"' , dashboard_ui[[3]], fixed = TRUE))
+    expect_true(grepl('id="footerAlert"' , dashboard_ui[[3]], fixed = TRUE))
+})
+
+test_that("add_ui_body append", {
+    add_ui_body(list(div("append div")), append = TRUE)
+    expect_snapshot_output(shiny::isolate(periscope2:::.g_opts$body_elements))
+    dashboard_ui <- periscope2:::create_application_dashboard()
+    expect_true(grepl('id="announceAlert"' , dashboard_ui[[1]], fixed = TRUE))
+    expect_true(grepl('id="headerAlert"' , dashboard_ui[[2]], fixed = TRUE))
+    expect_true(grepl('Periscope2 Features' , dashboard_ui[[3]], fixed = TRUE))
+    expect_true(grepl('id="sidebarRightAlert"' , dashboard_ui[[3]], fixed = TRUE))
+    expect_true(grepl('id="footerAlert"' , dashboard_ui[[3]], fixed = TRUE))
 })
 
 test_that("set_app_parameters default values", {
@@ -264,7 +274,7 @@ test_that("set_app_parameters default values", {
 test_that("set_app_parameters update values", {
     announcements_file <- system.file("fw_templ", "announce.yaml", package = "periscope2")
     title              <- "periscope Example Application"
-    app_info           <- HTML("Demonstrat periscope features and generated application layout")
+    app_info           <- HTML("Demonstrate periscope features and generated application layout")
     log_level          <- "INFO"
     app_version        <- "2.3.1"
     loading_indicator  <- list(html = tagList(div("Loading ...")))
@@ -411,4 +421,104 @@ test_that("theme - invalid theme settings", {
     expect_snapshot(nchar(create_theme()))
     unlink("www/periscope_style.yaml")
     unlink("www", recursive = TRUE)
+})
+
+
+test_that("dashboard - create default dashboard", {
+    expect_snapshot(periscope2:::create_application_dashboard())
+})
+
+
+test_that("add_ui_header - html title", {
+    announcements_file <- system.file("fw_templ", "announce.yaml", package = "periscope2")
+    title              <- "periscope Example Application"
+    app_info           <- HTML("Demonstrate periscope features and generated application layout")
+    log_level          <- "INFO"
+    app_version        <- "2.3.1"
+    loading_indicator  <- list(html = tagList(div("Loading ...")))
+
+    periscope2::set_app_parameters(title              = title,
+                                   app_info           = app_info,
+                                   log_level          = log_level,
+                                   app_version        = app_version,
+                                   loading_indicator  = loading_indicator,
+                                   announcements_file = announcements_file)
+    # normal header
+    skin               <- "light"
+    status             <- "white"
+    border             <- TRUE
+    compact            <- FALSE
+    left_sidebar_icon  <- shiny::icon("bars")
+    right_sidebar_icon <- shiny::icon("th")
+    fixed              <- FALSE
+    left_menu          <- NULL
+    right_menu         <- NULL
+
+    periscope2::add_ui_header(left_menu          = left_menu,
+                              right_menu         = right_menu,
+                              skin               = skin,
+                              status             = status,
+                              border             = border,
+                              compact            = compact,
+                              left_sidebar_icon  = left_sidebar_icon,
+                              right_sidebar_icon = right_sidebar_icon,
+                              fixed              = fixed)
+
+
+    expect_snapshot(shiny::isolate(periscope2:::.g_opts$app_info))
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_snapshot(header[[1]])
+})
+
+
+test_that("add_ui_header - url title", {
+    announcements_file <- system.file("fw_templ", "announce.yaml", package = "periscope2")
+    title              <- "periscope Example Application"
+    app_info           <- "https://cran.r-project.org/web/packages/periscope2/index.html"
+    log_level          <- "DEBUG"
+    app_version        <- "2.3.1"
+    loading_indicator  <- list(html = tagList(div("Loading ...")))
+
+    periscope2::set_app_parameters(title              = title,
+                                   app_info           = app_info,
+                                   log_level          = log_level,
+                                   app_version        = app_version,
+                                   loading_indicator  = loading_indicator,
+                                   announcements_file = announcements_file)
+    # normal header
+    skin               <- "light"
+    status             <- "white"
+    border             <- TRUE
+    compact            <- FALSE
+    left_sidebar_icon  <- shiny::icon("bars")
+    right_sidebar_icon <- shiny::icon("th")
+    fixed              <- FALSE
+    left_menu          <- NULL
+    right_menu         <- NULL
+
+    periscope2::add_ui_header(left_menu          = left_menu,
+                              right_menu         = right_menu,
+                              skin               = skin,
+                              status             = status,
+                              border             = border,
+                              compact            = compact,
+                              left_sidebar_icon  = left_sidebar_icon,
+                              right_sidebar_icon = right_sidebar_icon,
+                              fixed              = fixed)
+
+
+    expect_snapshot(shiny::isolate(periscope2:::.g_opts$app_info))
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_snapshot(header[[1]])
+})
+
+
+test_that("create alert - id and target error", {
+    expect_error(createAlert(id = "test_id", selector = "test_selector", options = NULL),
+                 regexp = "Please choose either target or selector!")
+})
+
+
+test_that("create alert - id", {
+    expect_snapshot_output(createAlert(id = "test_id", session = MockShinySession$new(), options = NULL))
 })

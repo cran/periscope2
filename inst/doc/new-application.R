@@ -1,11 +1,11 @@
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  # Add a user action to the log
 #  loginfo("Your Information Message with %s, %s parameters", parm1, parm2, logger = ss_userAction.Log)
 #  
 #  # Add a warning to the log
 #  logwarn("Your Warning Message!", logger = ss_userAction.Log)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  periscope2::createAlert(id       = 'bodyAlert',
 #                           options = list(
 #                               title    = 'alert title',
@@ -19,7 +19,7 @@
 #  # status sets the bootstrap styling and can be one of:
 #  #    'primary', 'success', 'warning', 'danger' or 'info'
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ui_tooltip(id        = 'tooltipID',
 #             label     = 'label text (optional)',
 #             text      = 'text content',
@@ -28,64 +28,52 @@
 #  # placement sets the tool-tip pop-up location and can be one of:
 #  # 'top', 'bottom', 'left' or 'right'
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  library(periscope2)
 #  app_dir = tempdir()
 #  
-#  # application without a right sidebar or footer
-#  create_application(
-#      name = 'mytestapp',
-#      location = app_dir,
-#      sample_app = TRUE)
+#  # application without a right sidebar
+#  create_application(name       = 'mytestapp',
+#                     location   = app_dir,
+#                     sample_app = TRUE)
 #  
-#  # application without a left sidebar, a right sidebar or footer
+#  # application without a left sidebar or a right sidebar
 #  create_application(name         = 'mytestapp',
 #                     location     = app_dir,
 #                     sample_app   = TRUE,
 #                     left_sidebar = FALSE)
 #  
-#  # application with a footer
-#  create_application(name       = 'mytestapp',
-#                     location   = app_dir,
-#                     sample_app = TRUE,
-#                     footer     = TRUE)
-#  
-#  # application with a right sidebar
+#  # application with left and right sidebars
 #  create_application(name          = 'mytestapp',
 #                     location      = app_dir,
 #                     sample_app    = TRUE,
 #                     right_sidebar = TRUE)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  runApp(paste(app_dir, 'mytestapp', sep = .Platform$file.sep))
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  library(periscope2)
 #  app_dir = tempdir()
 #  
-#  # application without a right sidebar or footer
+#  # application without a right sidebar
 #  create_application(name     = 'mytestapp',
 #                     location = app_dir)
 #  
-#  # application without a left sidebar, a right sidebar or footer
+#  # application without a left sidebar or a right sidebar
 #  create_application(name         = 'mytestapp',
 #                     location     = app_dir,
 #                     left_sidebar = FALSE)
-#  
-#  # application with a footer
-#  create_application(name     = 'mytestapp',
-#                     location = app_dir,
-#                     footer   = TRUE)
 #  
 #  # application with a right sidebar
 #  create_application(name          = 'mytestapp',
 #                     location      = app_dir,
 #                     right_sidebar = TRUE)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  runApp('mytestapp', appDir = app_dir)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  # Plain text title
 #  set_app_parameters(title = "My Application Title")
 #  
@@ -102,13 +90,13 @@
 #  # Application Title links to a modal window with HTML content, setting log level to 'DEBUG',
 #  # using simple loading screen, init app version and pass announcements configuration module file
 #  set_app_parameters(title              = "periscope Example Application",
-#                     app_info           = HTML("Demonstrat periscope features and generated application layout"),
+#                     app_info           = HTML("Demonstrate periscope features and generated application layout"),
 #                     log_level          = "DEBUG",
 #                     app_version        = "1.0.0",
 #                     loading_indicator  = list(html = tagList(spin_1(), "Loading ...")),
 #                     announcements_file = "./program/config/announce.yaml")
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  sidebar_menu <-  sidebarMenu(
 #      sidebarHeader("Periscope2 Features"),
 #      menuItem(
@@ -130,12 +118,12 @@
 #  
 #  add_ui_left_sidebar(sidebar_menu = list(sidebar_menu))
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  sidebar_element <- div(checkboxInput("hideFileOrganization", "Show Files Organization"))
 #  
 #  add_ui_right_sidebar(sidebar_elements = list(sidebar_element))
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  body1 <- box(id          = "bodyElement1",
 #               title       = "Box 1",
 #               width       = 8,          #2/3 of the width (for 12 columns layout)
@@ -155,18 +143,18 @@
 #  
 #  add_ui_body(body_elements = list(body1, body2))
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  # Navbar skin. "dark" or "light"
-#  skin <-  "light"
+#  skin <- "light"
 #  
 #  # Navbar status
-#  status <-  "white"
+#  status <- "white"
 #  
 #  # Whether to separate the navbar and body by a border.
-#  border <-  TRUE
+#  border <- TRUE
 #  
 #  # Whether items should be compacted
-#  compact <-  FALSE
+#  compact <- FALSE
 #  
 #  # Icon of the main sidebar toggle
 #  left_sidebar_icon <- shiny::icon("bars")
@@ -181,7 +169,7 @@
 #                left_sidebar_icon  = left_sidebar_icon,
 #                right_sidebar_icon = right_sidebar_icon)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  # Left text
 #  left  <- a(
 #      href   = "https://periscopeapps.org/",
@@ -199,7 +187,7 @@
 #                right = right,
 #                fixed = fixed)
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  source("program/fxn/makeplot.R")
 #  
 #  #build the deferred UI from ui_body.R
@@ -221,7 +209,7 @@
 #                                           content  = "alert contents"))
 #  })
 
-## ---- eval=F------------------------------------------------------------------
+## ----eval=F-------------------------------------------------------------------
 #  ref_data <- read.csv("program/data/mydata.csv")
 #  
 #  get_ref_data <- function() {

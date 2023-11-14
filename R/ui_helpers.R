@@ -139,24 +139,27 @@ add_ui_header <- function(left_menu          = NULL,
     title     <- shiny::div(id = "app_header", app_title)
     app_info  <- shiny::isolate(.g_opts$app_info)
 
-    if (!is.null(app_info) && (class(app_info)[1] == "html")) {
-        title <- shiny::div(id = "headerAlert",
-                            shiny::div(id = "app_header"),
-                            shiny::actionLink("app_info", app_title))
+    if (!is.null(app_info)) {
+        if (class(app_info)[1] == "html") {
+            title <- shiny::div(shiny::div(id = "app_header"),
+                                shiny::actionLink("app_info", app_title))
+        } else {
+            title <-  shiny::div(shiny::div(id = "app_header"),
+                                 shiny::a(id = "app_info", href = app_info, target = "_blank", app_title))
+        }
+
     }
 
-    title_header_alert <- shiny::fluidRow(style = "width:100%",
-                                          shiny::column(width = 12, shiny::div(id = "announceAlert")),
-                                          shiny::column(width = 12, shiny::div(id = "headerAlert")),
-                                          shiny::column(width = 4,
-                                                        shiny::div(class = "periscope-busy-ind",
-                                                                   "Working",
-                                                                   shiny::img(alt = "Working...",
-                                                                              hspace = "5px",
-                                                                              src = "img/loader.gif"))),
-                                          shiny::column(width = 4, title),
-                                          shiny::column(width = 4))
-    .g_opts$header <- bs4Dash::bs4DashNavbar(title_header_alert,
+    title_header <- shiny::fluidRow(style = "width:100%",
+                                    shiny::column(width = 4,
+                                                  shiny::div(class = "periscope-busy-ind",
+                                                             "Working",
+                                                             shiny::img(alt = "Working...",
+                                                                        hspace = "5px",
+                                                                        src = "img/loader.gif"))),
+                                    shiny::column(width = 4, title),
+                                    shiny::column(width = 4))
+    .g_opts$header <- bs4Dash::bs4DashNavbar(title_header,
                                              skin           = skin,
                                              status         = status,
                                              border         = border,
@@ -471,7 +474,8 @@ ui_tooltip <- function(id,
 #' @param loading_indicator  - It uses waiter (see https://waiter.john-coene.com/#/).\cr
 #'                             Pass a list like list(html = spin_1(), color = "#333e48") to \cr configure
 #'                             waiterShowOnLoad (refer to the package help for all styles).
-#' @param announcements_file - The path to announcements configuration file
+#' @param announcements_file - The path to announcements configuration file.
+#'                             Use \link[periscope2]{announcementConfigurationsAddin} to generate that file.
 #'
 #' @return no return value, called for setting new application global properties
 #'
@@ -492,6 +496,8 @@ ui_tooltip <- function(id,
 #'                      loading_indicator  = list(html = tagList(spin_1(), "Loading ...")),
 #'                      announcements_file = "./program/config/announce.yaml")
 #'
+#'
+#' @seealso \link[periscope2:announcementConfigurationsAddin]{periscope2:announcementConfigurationsAddin()}
 #' @seealso \link[waiter:waiter]{waiter:waiter_show()}
 #' @seealso \link[periscope2:add_ui_footer]{periscope2:add_ui_footer()}
 #' @seealso \link[periscope2:add_ui_left_sidebar]{periscope2:add_ui_left_sidebar()}
@@ -537,8 +543,8 @@ set_app_parameters <- function(title,
 #'   # Display application info
 #'   observeEvent(input$app_info, {
 #'                url_params <- get_url_parameters(session)
-#'                shinyalert(html                = TRUE,
-#'                           showConfirmButton   = FALSE,
+#'                show_alert(html                = TRUE,
+#'                           showCloseButton     = FALSE,
 #'                           animation           = "slide-from-top",
 #'                           closeOnClickOutside = TRUE,
 #'                           text                = url_params[["passed_paramter"]],

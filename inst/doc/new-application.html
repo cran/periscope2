@@ -12,7 +12,7 @@
 
 <meta name="author" content="Dr. Connie Brett" />
 
-<meta name="date" content="2023-08-23" />
+<meta name="date" content="2023-11-13" />
 
 <title>Creating a new framework-based application</title>
 
@@ -164,7 +164,7 @@ margin: auto;
 <h1 class="title toc-ignore">Creating a new framework-based
 application</h1>
 <h4 class="author">Dr. Connie Brett</h4>
-<h4 class="date">2023-08-23</h4>
+<h4 class="date">2023-11-13</h4>
 
 
 <div id="TOC">
@@ -276,8 +276,8 @@ and functionality that will affect the body of the application.</p>
 <p>The right sidebar is optional. When used it is collapsed by default
 and can be opened by clicking on the icon (which can be customized).</p>
 <p><em>4: Footer</em></p>
-<p>The footer is optional. The footer supports short textual or html
-formatted info/citations.</p>
+<p>The footer supports short textual or html formatted
+info/citations.</p>
 <p><em>5: Body</em></p>
 <p>This is the main body area for applications where charts and figures,
 tables, etc. are placed by the application developer. If desired the
@@ -461,29 +461,22 @@ information</em></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(periscope2)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>app_dir <span class="ot">=</span> <span class="fu">tempdir</span>()</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># application without a right sidebar or footer</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">create_application</span>(</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    <span class="at">location =</span> app_dir, </span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="at">sample_app =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># application without a left sidebar, a right sidebar or footer</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name         =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                   <span class="at">location     =</span> app_dir, </span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>                   <span class="at">sample_app   =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>                   <span class="at">left_sidebar =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># application with a footer</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name       =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>                   <span class="at">location   =</span> app_dir, </span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>                   <span class="at">sample_app =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>                   <span class="at">footer     =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># application with a right sidebar</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name          =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>                   <span class="at">location      =</span> app_dir, </span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>                   <span class="at">sample_app    =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>                   <span class="at">right_sidebar =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># application without a right sidebar</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name       =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                   <span class="at">location   =</span> app_dir, </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>                   <span class="at">sample_app =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># application without a left sidebar or a right sidebar</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name         =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>                   <span class="at">location     =</span> app_dir, </span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                   <span class="at">sample_app   =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>                   <span class="at">left_sidebar =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># application with left and right sidebars</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name          =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                   <span class="at">location      =</span> app_dir, </span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>                   <span class="at">sample_app    =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>                   <span class="at">right_sidebar =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>This generates a default sample application optionally with a
 left/right sidebar in a subdirectory named <em>mytestapp</em> at the
 specified location. The location must exist when calling this
@@ -509,24 +502,19 @@ explore the functionality and code.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(periscope2)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>app_dir <span class="ot">=</span> <span class="fu">tempdir</span>()</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># application without a right sidebar or footer</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># application without a right sidebar</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name     =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                   <span class="at">location =</span> app_dir)</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># application without a left sidebar, a right sidebar or footer</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># application without a left sidebar or a right sidebar</span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name         =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                   <span class="at">location     =</span> app_dir, </span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                   <span class="at">left_sidebar =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># application with a footer</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name     =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                   <span class="at">location =</span> app_dir, </span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                   <span class="at">footer   =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># application with a right sidebar</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name          =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>                   <span class="at">location      =</span> app_dir, </span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>                   <span class="at">right_sidebar =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># application with a right sidebar</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">create_application</span>(<span class="at">name          =</span> <span class="st">&#39;mytestapp&#39;</span>, </span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                   <span class="at">location      =</span> app_dir, </span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                   <span class="at">right_sidebar =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>This generates a default blank application optionally with a
 left/right sidebar in a subdirectory named <em>mytestapp</em> at the
 specified location. The location must exist when calling this
@@ -590,7 +578,7 @@ all user sessions.</p>
 <span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># Application Title links to a modal window with HTML content, setting log level to &#39;DEBUG&#39;, </span></span>
 <span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># using simple loading screen, init app version and pass announcements configuration module file</span></span>
 <span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="fu">set_app_parameters</span>(<span class="at">title              =</span> <span class="st">&quot;periscope Example Application&quot;</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>                   <span class="at">app_info           =</span> <span class="fu">HTML</span>(<span class="st">&quot;Demonstrat periscope features and generated application layout&quot;</span>),</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>                   <span class="at">app_info           =</span> <span class="fu">HTML</span>(<span class="st">&quot;Demonstrate periscope features and generated application layout&quot;</span>),</span>
 <span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>                   <span class="at">log_level          =</span> <span class="st">&quot;DEBUG&quot;</span>,</span>
 <span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>                   <span class="at">app_version        =</span> <span class="st">&quot;1.0.0&quot;</span>,</span>
 <span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>                   <span class="at">loading_indicator  =</span> <span class="fu">list</span>(<span class="at">html =</span> <span class="fu">tagList</span>(<span class="fu">spin_1</span>(), <span class="st">&quot;Loading ...&quot;</span>)),</span>
@@ -669,16 +657,16 @@ documentation.</p>
 <p>Create UI elements for the application header and attach them to the
 UI by calling <em>add_ui_header()</em></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Navbar skin. &quot;dark&quot; or &quot;light&quot;</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>skin <span class="ot">&lt;-</span>  <span class="st">&quot;light&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>skin <span class="ot">&lt;-</span> <span class="st">&quot;light&quot;</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Navbar status</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>status <span class="ot">&lt;-</span>  <span class="st">&quot;white&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="st">&quot;white&quot;</span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># Whether to separate the navbar and body by a border.</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>border <span class="ot">&lt;-</span>  <span class="cn">TRUE</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>border <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
 <span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># Whether items should be compacted</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>compact <span class="ot">&lt;-</span>  <span class="cn">FALSE</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>compact <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
 <span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># Icon of the main sidebar toggle</span></span>
 <span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>left_sidebar_icon <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">icon</span>(<span class="st">&quot;bars&quot;</span>)</span>
@@ -824,6 +812,8 @@ Module</a></li>
 <li><a href="applicationReset-module.html">applicationReset
 Module</a></li>
 <li><a href="announcement-module.html">announcement Module</a></li>
+<li><a href="announcement_addin.html">Announcement Configuration
+Builder</a></li>
 </ul>
 </div>
 </div>
