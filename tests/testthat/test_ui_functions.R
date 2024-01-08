@@ -30,10 +30,155 @@ create_announcements <- function(start_date        = NULL,
 
 #########################################
 
-test_that("add_ui_header - default", {
-    # no header
+test_that("add_ui_header - no header", {
     expect_null(shiny::isolate(periscope2:::.g_opts$header))
-    # normal header
+})
+
+test_that("set_app_parameters default values", {
+    expect_equal(shiny::isolate(periscope2:::.g_opts$app_title), "Set using set_app_parameters() in program/global.R")
+    expect_null(shiny::isolate(periscope2:::.g_opts$app_info), NULL)
+    expect_equal(shiny::isolate(periscope2:::.g_opts$loglevel), "DEBUG")
+    expect_equal(shiny::isolate(periscope2:::.g_opts$app_version), "1.0.0")
+    expect_null(shiny::isolate(periscope2:::.g_opts$loading_indicator))
+    expect_null(shiny::isolate(periscope2:::.g_opts$announcements_file))
+    expect_null(periscope2:::load_announcements())
+})
+
+test_that("add_ui_header - ui element", {
+    menu <-   navbarMenu(
+        id = "navmenu",
+        navbarTab(tabName = "Tab1", text = "Tab 1"),
+        navbarTab(tabName = "Tab2", text = "Tab 2"),
+        navbarTab(
+            text = "Menu",
+            dropdownHeader("Dropdown header"),
+            navbarTab(tabName = "Tab3", text = "Tab 3")
+        )
+    )
+
+    # busy indicator - title - UI elements
+    periscope2::add_ui_header(ui_elements = menu)
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_equal(length(header), 2)
+    expect_equal(length(header[[1]]), 3)
+    expect_equal(length(header[[1]]$children), 3)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - UI elements - title
+    periscope2::add_ui_header(ui_elements    = menu,
+                              ui_position    = "center",
+                              title_position = "right")
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Tab1.*Set using set_app_parameters', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-6.*col-sm-3', header[[1]]$children[[2]]))
+
+    # UI elements - busy indicator - title
+    periscope2::add_ui_header(ui_elements    = menu,
+                              ui_position    = "left",
+                              title_position = "right")
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('Tab1.*periscope-busy-ind.*Set using set_app_parameters', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-6.*col-sm-3.*col-sm-3', header[[1]]$children[[2]]))
+
+    # UI elements - title - busy indicator
+    periscope2::add_ui_header(ui_elements    = menu,
+                              ui_position    = "left",
+                              title_position = "center")
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('Tab1.*Set using set_app_parameters.*periscope-busy-ind', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-6.*col-sm-3.*col-sm-3', header[[1]]$children[[2]]))
+
+    # title - UI elements - busy indicator
+    periscope2::add_ui_header(ui_elements    = menu,
+                              ui_position    = "center",
+                              title_position = "left")
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('Set using set_app_parameters.*Tab1.*periscope-busy-ind', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-6.*col-sm-3', header[[1]]$children[[2]]))
+
+    # title - busy indicator - UI elements
+    periscope2::add_ui_header(ui_elements    = menu,
+                              ui_position    = "right",
+                              title_position = "left")
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('Set using set_app_parameters.*periscope-busy-ind.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title - UI elements (center as well)
+    expect_warning(periscope2::add_ui_header(ui_elements = menu,
+                                                    ui_position = "center"),
+                   regexp = "title_position cannot be equal to ui_position")
+
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title - UI elements positions is NULL
+    expect_warning(periscope2::add_ui_header(ui_elements = menu,
+                                             ui_position = NULL),
+                   regexp = "ui_position must be on of 'left', 'center'or 'right' values. Setting default value 'right'")
+
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title - UI elements positions is wrong
+    expect_warning(periscope2::add_ui_header(ui_elements = menu,
+                                             ui_position = "abc"),
+                   regexp = "ui_position must be on of 'left', 'center'or 'right' values. Setting default value 'right'")
+
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title positions is wrong- UI elements
+    expect_warning(periscope2::add_ui_header(ui_elements    = menu,
+                                             title_position = "abc"),
+                   regexp = "title_position must be on of 'left', 'center'or 'right' values. Setting default value 'center'")
+
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title positions is NULL- UI elements
+    expect_warning(periscope2::add_ui_header(ui_elements    = menu,
+                                             title_position = NULL),
+                   regexp = "title_position must be on of 'left', 'center'or 'right' values. Setting default value 'center'")
+
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title positions is NULL- UI elements position is center
+    warn_msgs <- capture_warnings(periscope2::add_ui_header(ui_elements    = menu,
+                                             ui_position    = "center",
+                                             title_position = NULL))
+    expect_equal("title_position must be on of 'left', 'center'or 'right' values. Setting default value 'center'",
+                 warn_msgs[1])
+    expect_equal("title_position cannot be equal to ui_position. Setting default values",
+                 warn_msgs[2])
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Set using set_app_parameters.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+
+    # busy indicator - title positions is right- UI elements position is NULL
+    warn_msgs <- capture_warnings(periscope2::add_ui_header(ui_elements    = menu,
+                                                            ui_position    = NULL,
+                                                            title          = "Header Title",
+                                                            title_position = "right"))
+    expect_equal(shiny::isolate(periscope2:::.g_opts$app_title), "Header Title")
+    expect_equal("ui_position must be on of 'left', 'center'or 'right' values. Setting default value 'right'",
+                 warn_msgs[1])
+    expect_equal("title_position cannot be equal to ui_position. Setting default values",
+                 warn_msgs[2])
+    header <- shiny::isolate(periscope2:::.g_opts$header)
+    expect_true(grepl('periscope-busy-ind.*Header Title.*Tab1', header[[1]]$children[[2]]))
+    expect_true(grepl('col-sm-3.*col-sm-3.*col-sm-6', header[[1]]$children[[2]]))
+})
+
+
+test_that("add_ui_header - no ui element", {
     skin               <- "light"
     status             <- "white"
     border             <- TRUE
@@ -52,12 +197,13 @@ test_that("add_ui_header - default", {
                               compact            = compact,
                               left_sidebar_icon  = left_sidebar_icon,
                               right_sidebar_icon = right_sidebar_icon,
-                              fixed              = fixed)
+                              fixed              = fixed,
+                              title              = "good title")
 
 
     header <- shiny::isolate(periscope2:::.g_opts$header)
     expect_equal(length(header), 2)
-    expect_true(grepl('Set using set_app_parameters() in program/global.R', header[[1]], fixed = TRUE))
+    expect_true(grepl("good title", header[[1]], fixed = TRUE))
     expect_null(header[[2]])
 })
 
@@ -259,16 +405,6 @@ test_that("add_ui_body append", {
     expect_true(grepl('Periscope2 Features' , dashboard_ui[[3]], fixed = TRUE))
     expect_true(grepl('id="sidebarRightAlert"' , dashboard_ui[[3]], fixed = TRUE))
     expect_true(grepl('id="footerAlert"' , dashboard_ui[[3]], fixed = TRUE))
-})
-
-test_that("set_app_parameters default values", {
-    expect_equal(shiny::isolate(periscope2:::.g_opts$app_title), "Set using set_app_parameters() in program/global.R")
-    expect_null(shiny::isolate(periscope2:::.g_opts$app_info), NULL)
-    expect_equal(shiny::isolate(periscope2:::.g_opts$loglevel), "DEBUG")
-    expect_equal(shiny::isolate(periscope2:::.g_opts$app_version), "1.0.0")
-    expect_null(shiny::isolate(periscope2:::.g_opts$loading_indicator))
-    expect_null(shiny::isolate(periscope2:::.g_opts$announcements_file))
-    expect_null(periscope2:::load_announcements())
 })
 
 test_that("set_app_parameters update values", {
@@ -514,11 +650,11 @@ test_that("add_ui_header - url title", {
 
 
 test_that("create alert - id and target error", {
-    expect_error(createAlert(id = "test_id", selector = "test_selector", options = NULL),
+    expect_error(createPSAlert(id = "test_id", selector = "test_selector", options = NULL),
                  regexp = "Please choose either target or selector!")
 })
 
 
 test_that("create alert - id", {
-    expect_snapshot_output(createAlert(id = "test_id", session = MockShinySession$new(), options = NULL))
+    expect_snapshot_output(createPSAlert(id = "test_id", session = MockShinySession$new(), options = NULL))
 })

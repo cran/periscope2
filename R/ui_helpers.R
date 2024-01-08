@@ -69,8 +69,20 @@ add_ui_left_sidebar <- function(sidebar_elements = NULL,
 #' Add UI elements to dashboard header section
 #'
 #' Builds application header with given configurations and elements. It is called within "ui_header.R".
+#' These elements will be displayed in the header beside application title and application busy indicator.
+#'
+#' User can configure UI elements, application title and the busy indicator positions as well using this method.
+#'
 #' Check example application for detailed example
 #'
+#' @param ui_elements        - It can be any UI element but mostly used for navbarMenu. NULL by default.
+#'                             Check \code{?bs4Dash::navbarMenu()}
+#' @param ui_position        - Location of UI elements in the header. Must be either of 'center', 'left' or 'right'
+#'                             Default value is 'right'.
+#' @param title              - Sets application title. If it is not NULL, it will override "title" value that is set in
+#'                             \code{?periscope2::set_app_parameters()} (default = NULL)
+#' @param title_position     - Location of the title in the header. Must be either of 'center', 'left' or 'right'
+#'                             Default value is 'Center'. If there are no UI elements, this param will be ignored.
 #' @param left_menu          - Left menu. bs4DropdownMenu object (or similar dropdown menu).
 #'                             Check \code{?bs4Dash::bs4DropdownMenu()}
 #' @param right_menu         - Right menu. bs4DropdownMenu object (or similar dropdown menu).
@@ -118,6 +130,7 @@ add_ui_left_sidebar <- function(sidebar_elements = NULL,
 #'   add_ui_header(left_menu = left_menu, right_menu = right_menu)
 #'
 #' @seealso \link[bs4Dash:bs4DashNavbar]{bs4Dash:bs4DashNavbar()}
+#' @seealso \link[periscope2:set_app_parameters]{periscope2:set_app_parameters()}
 #' @seealso \link[periscope2:add_ui_footer]{periscope2:add_ui_footer()}
 #' @seealso \link[periscope2:add_ui_left_sidebar]{periscope2:add_ui_left_sidebar()}
 #' @seealso \link[periscope2:add_ui_body]{periscope2:add_ui_body()}
@@ -126,7 +139,11 @@ add_ui_left_sidebar <- function(sidebar_elements = NULL,
 #' @seealso \link[periscope2:get_url_parameters]{periscope2:get_url_parameters()}
 #'
 #' @export
-add_ui_header <- function(left_menu          = NULL,
+add_ui_header <- function(ui_elements        = NULL,
+                          ui_position        = "right",
+                          title              = NULL,
+                          title_position     = "center",
+                          left_menu          = NULL,
                           right_menu         = NULL,
                           border             = TRUE,
                           compact            = FALSE,
@@ -135,31 +152,115 @@ add_ui_header <- function(left_menu          = NULL,
                           left_sidebar_icon  = shiny::icon("th"),
                           skin               = "light",
                           status             = "white") {
+    if (!is.null(title)) {
+        .g_opts$app_title <- title
+    }
+
     app_title <- shiny::isolate(.g_opts$app_title)
     title     <- shiny::div(id = "app_header", app_title)
     app_info  <- shiny::isolate(.g_opts$app_info)
 
     if (!is.null(app_info)) {
         if (class(app_info)[1] == "html") {
-            title <- shiny::div(shiny::div(id = "app_header"),
+            title <- shiny::div(id = "app_header",
                                 shiny::actionLink("app_info", app_title))
         } else {
-            title <-  shiny::div(shiny::div(id = "app_header"),
-                                 shiny::a(id = "app_info", href = app_info, target = "_blank", app_title))
+            title <- shiny::div(id = "app_header",
+                                shiny::a(id = "app_info", href = app_info, target = "_blank", app_title))
         }
 
     }
 
-    title_header <- shiny::fluidRow(style = "width:100%",
-                                    shiny::column(width = 4,
-                                                  shiny::div(class = "periscope-busy-ind",
-                                                             "Working",
-                                                             shiny::img(alt = "Working...",
-                                                                        hspace = "5px",
-                                                                        src = "img/loader.gif"))),
-                                    shiny::column(width = 4, title),
-                                    shiny::column(width = 4))
-    .g_opts$header <- bs4Dash::bs4DashNavbar(title_header,
+    busy_indicator <- shiny::div(class = "periscope-busy-ind",
+                                 "Working",
+                                 shiny::img(alt = "Working...",
+                                            hspace = "5px",
+                                            src = "img/loader.gif"))
+    header_left   <- busy_indicator
+    header_center <- title
+    header_right  <- ui_elements
+
+    left_width   <- 4
+    right_width  <- 4
+    center_width <- 4
+
+    if (!is.null(ui_elements)) {
+        if (!is.null(title_position)) {
+            title_position <- tolower(title_position)
+        }
+
+        if (!is.null(ui_position)) {
+            ui_position <- tolower(ui_position)
+        }
+
+        if ((is.null(title_position)) ||
+            !(title_position %in% c("left", "center", "right"))) {
+            warning("title_position must be on of 'left', 'center'or 'right' values. Setting default value 'center'")
+            title_position <- "center"
+        }
+
+        if ((is.null(ui_position)) ||
+            !(ui_position %in% c("left", "center", "right"))) {
+            warning("ui_position must be on of 'left', 'center'or 'right' values. Setting default value 'right'")
+            ui_position <- "right"
+        }
+
+        if (title_position == ui_position) {
+            warning("title_position cannot be equal to ui_position. Setting default values")
+            title_position <- "center"
+            ui_position    <- "right"
+        }
+
+        left_width   <- 3
+        center_width <- 3
+        right_width  <- 6
+
+        if (ui_position == "left") {
+            left_width   <- 6
+            center_width <- 3
+            right_width  <- 3
+        } else if (ui_position == "center") {
+            left_width   <- 3
+            center_width <- 6
+            right_width  <- 3
+        }
+
+        if (title_position == "center") {
+            if (ui_position == "left") {
+                header_right <- busy_indicator
+                header_left  <- ui_elements
+            }
+        } else if (title_position == "left") {
+            header_left <- title
+
+            if (ui_position == "right") {
+                header_right  <- ui_elements
+                header_center <- busy_indicator
+            } else{
+                header_right  <- busy_indicator
+                header_center <- ui_elements
+            }
+        } else if (title_position == "right") {
+            header_right <- title
+
+            if (ui_position == "left") {
+                header_left   <- ui_elements
+                header_center <- busy_indicator
+            } else{
+                header_left   <- busy_indicator
+                header_center <- ui_elements
+            }
+        }
+
+
+    }
+
+    header <- shiny::fluidRow(style = "width:100%",
+                              shiny::column(width = left_width, header_left),
+                              shiny::column(width = center_width, header_center),
+                              shiny::column(width = right_width, header_right))
+
+    .g_opts$header <- bs4Dash::bs4DashNavbar(header,
                                              skin           = skin,
                                              status         = status,
                                              border         = border,
@@ -245,19 +346,19 @@ add_ui_body <- function(body_elements = NULL, append = FALSE) {
 #'   library(bs4Dash)
 #'
 #'   # Inside server_local.R
-#'   periscope2::createAlert(id       = "sidebarRightAlert",
-#'                           options  = list(title    = "Right Side",
-#'                                           status   = "success",
-#'                                           closable = TRUE,
-#'                                           content  = "Example Basic Sidebar Alert"))
-#'   # Test selector
+#'   createPSAlert(id       = "sidebarRightAlert",
+#'                 options  = list(title    = "Right Side",
+#'                                 status   = "success",
+#'                                 closable = TRUE,
+#'                                 content  = "Example Basic Sidebar Alert"))
+#'   # Test se
 #'   ## a div with class "badge-danger.navbar-badge" must be exist in UI to display alert
 #'   selector <- "div.badge-danger.navbar-badge"
-#'   periscope2::createAlert(selector = selector,
-#'                           options  = list(title    = "Selector Title",
-#'                                           status   = "danger",
-#'                                           closable = TRUE,
-#'                                           content  = "Selector Alert"))
+#'   createPSAlert(selector = selector,
+#'                 options  = list(title    = "Selector Title",
+#'                                 status   = "danger",
+#'                                 closable = TRUE,
+#'                                 content  = "Selector Alert"))
 #'
 #'
 #' @seealso \link[bs4Dash:closeAlert]{bs4Dash:closeAlert()}
@@ -266,10 +367,10 @@ add_ui_body <- function(body_elements = NULL, append = FALSE) {
 #' @seealso \link[periscope2:get_url_parameters]{periscope2:get_url_parameters()}
 #'
 #' @export
-createAlert <- function(session  = shiny::getDefaultReactiveDomain(),
-                        id       = NULL,
-                        selector = NULL,
-                        options) {
+createPSAlert <- function(session  = shiny::getDefaultReactiveDomain(),
+                          id       = NULL,
+                          selector = NULL,
+                          options) {
     if (!is.null(id) && !is.null(selector)) {
         stop("Please choose either target or selector!")
     }
@@ -443,12 +544,12 @@ ui_tooltip <- function(id,
 
    shiny::span(class = "periscope-input-label-with-tt",
                label,
-               bs4Dash::tooltip(shiny::img(id     = id,
-                                           src    = shiny::isolate(.g_opts$tt_image),
-                                           height = shiny::isolate(.g_opts$tt_height),
-                                           width  = shiny::isolate(.g_opts$tt_width)),
-                                title     = text,
-                                placement = placement))
+               tooltip(shiny::img(id     = id,
+                                  src    = shiny::isolate(.g_opts$tt_image),
+                                  height = shiny::isolate(.g_opts$tt_height),
+                                  width  = shiny::isolate(.g_opts$tt_width)),
+                       title     = text,
+                       placement = placement))
 }
 
 
@@ -571,3 +672,38 @@ get_url_parameters <- function(session) {
 
     parameters
 }
+
+
+# Override bs4Dash tooltip function to allow html handling in tooltips
+tooltip <- function(tag, title, placement = c("top", "bottom", "left", "right")) {
+    placement <- match.arg(placement)
+
+    tag <- shiny::tagAppendAttributes(
+        tag,
+        `data-toggle`    = "tooltip",
+        `data-placement` = placement,
+        title            = title,
+        `data-html`      = "true"
+    )
+
+    tagId <- tag$attribs$id
+
+    shiny::tagList(
+        shiny::singleton(
+            shiny::tags$head(
+                shiny::tags$script(
+                    sprintf(
+                        "$(function () {
+              // enable tooltip
+              $('#%s').tooltip();
+            });
+            ",
+                        tagId
+                    )
+                )
+            )
+        ),
+        tag
+    )
+}
+

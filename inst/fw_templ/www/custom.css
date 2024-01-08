@@ -11,9 +11,17 @@ a#app_info {
     color: #212529!important;
 }
 
+div#app_header {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+}
+
 /* Busy Indicator */
 .periscope-busy-ind {
-
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
 }
 
 .hidden {

@@ -6,13 +6,11 @@
 #  logwarn("Your Warning Message!", logger = ss_userAction.Log)
 
 ## ----eval=F-------------------------------------------------------------------
-#  periscope2::createAlert(id       = 'bodyAlert',
-#                           options = list(
-#                               title    = 'alert title',
+#  createPSAlert(id      = 'bodyAlert',
+#                options = list(title    = 'alert title',
 #                               status   = 'warning',
 #                               closable = TRUE,
-#                               content  = alert contents)
-#  )
+#                               content  = alert contents))
 #  # id is the location of the alert and can be one of:
 #  #   'sidebarRightAlert', 'sidebarBasicAlert', 'bodyAlert', 'footerAlert' and 'headerAlert'
 #  
@@ -201,7 +199,7 @@
 #  
 #  observeEvent(input$exButton, {
 #      loginfo("exButton Pressed!", logger = ss_userAction.Log)
-#      createAlert(
+#      createPSAlert(
 #          id = 'alert place',
 #          options  = list(title    = 'alert title',
 #                          status   = 'alert status'',

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Dr. Connie Brett" />
 
-<meta name="date" content="2023-11-13" />
+<meta name="date" content="2024-01-08" />
 
 <title>Creating a new framework-based application</title>
 
@@ -164,7 +164,7 @@ margin: auto;
 <h1 class="title toc-ignore">Creating a new framework-based
 application</h1>
 <h4 class="author">Dr. Connie Brett</h4>
-<h4 class="date">2023-11-13</h4>
+<h4 class="date">2024-01-08</h4>
 
 
 <div id="TOC">
@@ -370,18 +370,16 @@ automatically using logViewer module</p>
 the status.</p>
 <p>Alerts can accumulate (i.e. append to each other) or replace previous
 alerts.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>periscope2<span class="sc">::</span><span class="fu">createAlert</span>(<span class="at">id       =</span> <span class="st">&#39;bodyAlert&#39;</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                         <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                             <span class="at">title    =</span> <span class="st">&#39;alert title&#39;</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                             <span class="at">status   =</span> <span class="st">&#39;warning&#39;</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                             <span class="at">closable =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                             <span class="at">content  =</span> alert contents)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># id is the location of the alert and can be one of:</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#   &#39;sidebarRightAlert&#39;, &#39;sidebarBasicAlert&#39;, &#39;bodyAlert&#39;, &#39;footerAlert&#39; and &#39;headerAlert&#39;</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># status sets the bootstrap styling and can be one of:</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#    &#39;primary&#39;, &#39;success&#39;, &#39;warning&#39;, &#39;danger&#39; or &#39;info&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">createPSAlert</span>(<span class="at">id      =</span> <span class="st">&#39;bodyAlert&#39;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>              <span class="at">options =</span> <span class="fu">list</span>(<span class="at">title    =</span> <span class="st">&#39;alert title&#39;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                             <span class="at">status   =</span> <span class="st">&#39;warning&#39;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                             <span class="at">closable =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                             <span class="at">content  =</span> alert contents))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># id is the location of the alert and can be one of:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#   &#39;sidebarRightAlert&#39;, &#39;sidebarBasicAlert&#39;, &#39;bodyAlert&#39;, &#39;footerAlert&#39; and &#39;headerAlert&#39;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># status sets the bootstrap styling and can be one of:</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#    &#39;primary&#39;, &#39;success&#39;, &#39;warning&#39;, &#39;danger&#39; or &#39;info&#39;</span></span></code></pre></div>
 </div>
 <div id="application-loading" class="section level4">
 <h4>Application Loading</h4>
@@ -731,7 +729,7 @@ parameters.</p>
 <span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a></span>
 <span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>exButton, {</span>
 <span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>    <span class="fu">loginfo</span>(<span class="st">&quot;exButton Pressed!&quot;</span>, <span class="at">logger =</span> ss_userAction.Log)</span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>    <span class="fu">createAlert</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>    <span class="fu">createPSAlert</span>(</span>
 <span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>        <span class="at">id =</span> <span class="st">&#39;alert place&#39;</span>,</span>
 <span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>        <span class="at">options  =</span> <span class="fu">list</span>(<span class="at">title    =</span> <span class="st">&#39;alert title&#39;</span>,</span>
 <span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>                        <span class="at">status   =</span> <span class="st">&#39;alert status&#39;&#39;,</span></span>
@@ -813,6 +811,8 @@ Module</a></li>
 Module</a></li>
 <li><a href="announcement-module.html">announcement Module</a></li>
 <li><a href="announcement_addin.html">Announcement Configuration
+Builder</a></li>
+<li><a href="themeBuilder_addin.html">Theme Configuration
 Builder</a></li>
 </ul>
 </div>
