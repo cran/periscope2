@@ -12,7 +12,7 @@
 
 <meta name="author" content="Dr. Connie Brett" />
 
-<meta name="date" content="2024-01-08" />
+<meta name="date" content="2024-03-06" />
 
 <title>Using the downloadableTable Shiny Module</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Using the downloadableTable Shiny
 Module</h1>
 <h4 class="author">Dr. Connie Brett</h4>
-<h4 class="date">2024-01-08</h4>
+<h4 class="date">2024-03-06</h4>
 
 
 <div id="TOC">
@@ -390,6 +390,10 @@ search highlighting</li>
 vertical scrolling (no paging by default)</li>
 <li>Supports rownames and a table caption</li>
 <li>Requires minimal code (see the Usage section for details)</li>
+<li><strong>downloadFile</strong> button will be hidden if
+<code>downloadableTable</code> parameter <code>downloaddatafxn</code> or
+<code>downloadableTableUI</code> parameter <code>downloadtypes</code> is
+empty</li>
 </ul>
 <p><br></p>
 </div>
@@ -453,6 +457,8 @@ The call consists of the following:</p>
 <li>the unique object ID that was provided to downloadableTableUI when
 creating the UI object</li>
 <li>the logging logger to be used</li>
+<li><strong>filenameroot</strong> is an optional character, function or
+reactive expression providing downloadable file name</li>
 <li>the root (prefix) of the downloaded file name to be used in the
 browser as a character string or a reactive expression that returns a
 character string</li>
