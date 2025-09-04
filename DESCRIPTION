@@ -2,7 +2,7 @@ Package: periscope2
 Type: Package
 Title: Enterprise Streamlined 'shiny' Application Framework Using
         'bs4Dash'
-Version: 0.2.4
+Version: 0.3.0
 Authors@R: c(
     person("Mohammed", "Ali",      role = c("aut", "cre"), email   = "mohammed@aggregate-genius.com"),
     person("Constance", "Brett",   role = c("ctb")),
@@ -21,18 +21,18 @@ Encoding: UTF-8
 Language: en-US
 Depends: R (>= 4.0)
 Imports: shiny (>= 1.7), bs4Dash (>= 2.3), DT, fresh, grDevices,
-        lubridate, methods, shinyFeedback, shinyWidgets, utils,
-        writexl, yaml, lifecycle
+        lubridate, methods, reactable, shinyFeedback, shinyWidgets,
+        utils, writexl, yaml, lifecycle
 RoxygenNote: 7.3.2
 Suggests: assertthat, canvasXpress, colourpicker, ggplot2, knitr,
-        lattice, miniUI, openxlsx, rmarkdown, shinyjs, spelling,
-        testthat, waiter
+        lattice, miniUI, openxlsx, openxlsx2, rmarkdown, shinyjs,
+        spelling, testthat, waiter
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2025-04-14 13:40:58 UTC; mohammedali
+Packaged: 2025-09-04 09:04:44 UTC; mohammedali
 Author: Mohammed Ali [aut, cre],
   Constance Brett [ctb],
   Aggregate Genius Inc [spn]
 Maintainer: Mohammed Ali <mohammed@aggregate-genius.com>
 Repository: CRAN
-Date/Publication: 2025-04-14 14:00:02 UTC
+Date/Publication: 2025-09-04 09:20:02 UTC
